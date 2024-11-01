@@ -21,31 +21,42 @@
         <el-table-column label="Teacher" prop="teacher"></el-table-column>
         <el-table-column label="Operation" style="align-items: center;">
           <template #default="scope">
-            <el-button type="primary" @click="handleEdit">Edit</el-button>
-            <el-button type="danger" @click="handleDelete">Delete</el-button>
+            <el-button type="primary" @click="handleEdit(scope.row)">Edit</el-button>
+            <el-button type="danger" @click="handleDelete(scope.row.id)">Delete</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
 
+    <!-- 翻页条 -->
     <div class="card">
       <el-pagination background layout="prev, pager, next" v-model:page-size="data.pageSize" v-model:current-page="data.pageNum" :total="data.total" @current-change="handleCurrentChange"/>
     </div>
 
-    <el-dialog title="信息" width="40%" v-model="data.formVisible" :close-on-click-modal="false" destroy-on-close>
-      <el-form :model="data.form" label-width="100px" style="padding-right: 50px">
-        <el-form-item label="名称" prop="name">
+    <!-- 编辑弹窗 -->
+    <el-dialog title="Message" width="40%" v-model="data.formVisible" :close-on-click-modal="false" destroy-on-close>
+      <el-form :model="data.form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
+        <el-form-item label="Course" prop="name">
           <el-input v-model="data.form.name" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="描述" prop="descr">
-          <el-input v-model="data.form.descr" autocomplete="off" />
+        <el-form-item label="Number" prop="no">
+          <el-input v-model="data.form.no" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="Description" prop="description">
+          <el-input v-model="data.form.description" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="Hours" prop="times">
+          <el-input v-model="data.form.times" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="Teacher" prop="teacher">
+          <el-input v-model="data.form.teacher" autocomplete="off" />
         </el-form-item>
       </el-form>
       <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="data.formVisible = false">取 消</el-button>
-        <el-button type="primary" @click="data.formVisible = false">保 存</el-button>
-      </span>
+        <span class="dialog-footer">
+          <el-button @click="data.formVisible=false">Cancel</el-button>
+          <el-button type="primary" @click="save">Save</el-button>
+        </span>
       </template>
     </el-dialog>
 
@@ -54,8 +65,8 @@
 
 <script setup>
 import request from "@/utils/request";
-import {reactive} from "vue";
-import {ElMessageBox} from "element-plus";
+import {reactive, ref} from "vue";
+import {ElMessage, ElMessageBox} from "element-plus";
 
 // request.get('/').then(res => {
 //   console.log(res)
@@ -108,19 +119,84 @@ const reset = () => {
   load()
 }
 
+const formRef = ref()
+
+const validateMessage = (rule, value, callback) => {
+    if (!value) {
+      return callback(new Error('Cannot be empty'));
+    }
+    // 检查前后是否有多余的空格（输入应与去除空格后的输入相同）
+    if (value !== value.trim()) {
+        return callback(new Error('Password cannot start or end with a space'));
+    }
+    callback();
+  }
+
+const rules = reactive({
+    // 名字要与prop名相同
+    name: [
+      { validator: validateMessage, trigger: 'change' }
+    ],
+    no: [
+      { validator: validateMessage, trigger: 'change' }
+    ],
+    description: [
+      { validator: validateMessage, trigger: 'change' }
+    ],
+    times: [
+      { validator: validateMessage, trigger: 'change' }
+    ],
+    teacher: [
+      { validator: validateMessage, trigger: 'change' }
+    ],
+  })
+
 const handleAdd = () => {
   data.form = {}
   data.formVisible = true
 }
+
+// 保存信息到后台
+const save = () => {
+  formRef.value.validate((valid) => {
+    if (valid){
+      request.request({
+        url: data.form.id ? '/course/update' : '/course/add',
+        method: data.form.id ? 'PUT' : 'POST',
+        data: data.form
+      }).then(res => {
+        if (res.code === '200') {
+          load()
+          data.formVisible = false
+          ElMessage.success("Completed successfully")
+        } else {
+          ElMessage.error(res.msg)
+        }
+      })
+    }
+  })
+}
+
 const handleEdit = (row) => {
-  let form = JSON.parse(JSON.stringify(row))
+  // console.log(row)
+  data.form = JSON.parse(JSON.stringify(row))
   data.formVisible = true
 }
+
+
 const handleDelete = (id) => {
-  ElMessageBox.confirm('删除后数据无法恢复，您确定删除吗?', '删除确认', { type: 'warning' }).then(res => {
-    console.log('删除')
+  ElMessageBox.confirm('Data cannot be recovered after deletion. Continue?', 'Warning', { confirmButtonText: 'Confirm', cancelButtonText: 'Cancel', type: 'warning' }).then(res => {
+    request.delete('course/delete/' + id).then(res => {
+      if (res.code === '200') {
+        load()
+        data.formVisible = false
+        ElMessage.success("Completed successfully")
+      } else {
+        ElMessage.error(res.msg)
+      }
+    })
   }).catch(err => {
-    console.error(err)
+    // ElMessage({type: 'info', message: 'Delete canceled'})
   })
 }
 </script>

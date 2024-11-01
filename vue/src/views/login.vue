@@ -5,10 +5,16 @@
         <div style="font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 30px;">Login</div>
         <el-form :model="data.form" ref="formRef" :rules="rules">
           <el-form-item prop="username">
-            <el-input prefix-icon="User" v-model="data.form.username" placeholder="please enter username"/>
+            <el-input prefix-icon="User" clearable v-model="data.form.username" placeholder="please enter username"/>
           </el-form-item>
           <el-form-item prop="password">
             <el-input show-password clearable prefix-icon="Lock" v-model="data.form.password" placeholder="please enter password"/>
+          </el-form-item>
+          <el-form-item prop="role">
+            <el-select style="width: 100%;" v-model="data.form.role">
+              <el-option value="ADMIN" label="Administrator"></el-option>
+              <el-option value="STUDENT" label="Student"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" style="width: 100%;" @click="login">Confirm</el-button>
@@ -32,11 +38,12 @@ import router from "@/router";
     form: {
       username: "",
       password: "",
+      role: "STUDENT",
     }
   })
 
   const validateUsername = (rule, value, callback) => {
-    if (value === '') {
+    if (!value) {
       return callback(new Error('Cannot be empty'));
     }
     if (/\s/.test(value)){
@@ -50,7 +57,7 @@ import router from "@/router";
 
 
   const validatePassword = (rule, value, callback) => {
-    if (value === '') {
+    if (!value) {
       return callback(new Error('Cannot be empty'));
     }
     // 正则表达式 至少一个字母和一个数字，长度6-12位，不包含空格
