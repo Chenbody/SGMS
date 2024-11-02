@@ -21,11 +21,11 @@ public class AdminService {
         Account dbAdmin = adminMapper.selectByUsername(account.getUsername());
         if (dbAdmin == null) {
             // 没查找到用户
-            throw new CustomException("账号或密码错误");
+            throw new CustomException("Username or password is incorrect");
         }
         // 比较密码
         if (!dbAdmin.getPassword().equals(account.getPassword())) {
-            throw new CustomException("账号或密码错误");
+            throw new CustomException("Username or password is incorrect");
         }
         return dbAdmin;
     }

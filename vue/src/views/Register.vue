@@ -2,7 +2,7 @@
   <div>
     <div class="login-container">
       <div class="login-box" style="width: 350px;">
-        <div style="font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 30px;">Login</div>
+        <div style="font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 30px;">Register</div>
         <el-form :model="data.form" ref="formRef" :rules="rules">
           <el-form-item prop="username">
             <el-input prefix-icon="User" clearable v-model="data.form.username" placeholder="please enter username"/>
@@ -10,18 +10,12 @@
           <el-form-item prop="password">
             <el-input show-password clearable prefix-icon="Lock" v-model="data.form.password" placeholder="please enter password"/>
           </el-form-item>
-          <el-form-item prop="role">
-            <el-select style="width: 100%;" v-model="data.form.role">
-              <el-option value="ADMIN" label="Administrator"></el-option>
-              <el-option value="STUDENT" label="Student"></el-option>
-            </el-select>
-          </el-form-item>
           <el-form-item>
-            <el-button type="primary" style="width: 100%;" @click="login">Confirm</el-button>
+            <el-button type="primary" style="width: 100%;" @click="register">Confirm</el-button>
           </el-form-item>
         </el-form>
         <div style="margin-top: 30px; text-align: right;">
-          Have't account? Please <a href="/register">Register</a>
+          Already have account? Please <a href="/login">Login</a>
         </div>
       </div>
     </div>
@@ -38,7 +32,6 @@ import router from "@/router";
     form: {
       username: "",
       password: "",
-      role: "STUDENT",
     }
   })
 
@@ -82,16 +75,14 @@ import router from "@/router";
 
   const formRef = ref()
 
-  const login = () => {
+  const register = () => {
     formRef.value.validate((valid) => {
       // console.log(valid)
       if (valid){
-        request.post('/login', data.form).then(res => {
+        request.post('/register', data.form).then(res => {
           if (res.code === "200"){
-            localStorage.setItem("student-user", JSON.stringify(res.data))
-            ElMessage.success("success login")
-            // console.log(res.data)
-            router.push("/home")
+            ElMessage.success("success register")
+            router.push("/login")
           } else {
             ElMessage.error(res.msg)
           }

@@ -2,9 +2,8 @@
   <div>
 
     <div class="card" style="margin-bottom: 10px;">
-      <el-input style="width: 250px; margin: 8px" placeholder="Search with course name" v-model="data.courseName" prefix-icon="Search" clearable @keyup.enter="load"></el-input>
-      <el-input style="width: 250px; margin: 8px" placeholder="Search with course num" v-model="data.no" prefix-icon="Search" clearable @keyup.enter="load"></el-input>
-      <el-input style="width: 250px; margin: 8px" placeholder="Search with course teacher" v-model="data.teacher" prefix-icon="Search" clearable @keyup.enter="load"></el-input>
+      <el-input style="width: 250px; margin: 8px" placeholder="Search with username" v-model="data.username" prefix-icon="Search" clearable @keyup.enter="load"></el-input>
+      <el-input style="width: 250px; margin: 8px" placeholder="Search with name(nickname)" v-model="data.name" prefix-icon="Search" clearable @keyup.enter="load"></el-input>
       <el-button type="primary" @click="load" style="margin-left: 8px;">Search</el-button>
       <el-button type="info" style="margin: 0 10px" @click="reset">Reset</el-button>
     </div>
@@ -14,11 +13,13 @@
         <el-button type="primary" @click="handleAdd">Add</el-button>
       </div>
       <el-table stripe :data="data.tableData">
-        <el-table-column label="Course" prop="name"></el-table-column>
-        <el-table-column label="Number" prop="no"></el-table-column>
-        <el-table-column label="Description" prop="description"></el-table-column>
-        <el-table-column label="Hours" prop="times"></el-table-column>
-        <el-table-column label="Teacher" prop="teacher"></el-table-column>
+        <el-table-column label="Username" prop="username"></el-table-column>
+        <el-table-column label="Name" prop="name"></el-table-column>
+        <el-table-column label="PhoneNum" prop="phone"></el-table-column>
+        <el-table-column label="Email" prop="email"></el-table-column>
+        <el-table-column label="Sex" prop="sex"></el-table-column>
+        <el-table-column label="Birth" prop="birth"></el-table-column>
+        <el-table-column label="Avatar" prop="avatar"></el-table-column>
         <el-table-column label="Operation" style="align-items: center;" width="180">
           <template #default="scope">
             <el-button type="primary" @click="handleEdit(scope.row)">Edit</el-button>
@@ -36,20 +37,29 @@
     <!-- 编辑弹窗 -->
     <el-dialog title="Message" width="40%" v-model="data.formVisible" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="data.form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
-        <el-form-item label="Course" prop="name">
+        <el-form-item label="Username" prop="username">
+          <el-input v-model="data.form.username" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="Name" prop="name">
           <el-input v-model="data.form.name" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="Number" prop="no">
-          <el-input v-model="data.form.no" autocomplete="off" />
+        <el-form-item label="Password" prop="password">
+          <el-input show-password v-model="data.form.password" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="Description" prop="description">
-          <el-input v-model="data.form.description" autocomplete="off" />
+        <el-form-item label="PhoneNum" prop="phone">
+          <el-input v-model="data.form.phone" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="Hours" prop="times">
-          <el-input v-model="data.form.times" autocomplete="off" />
+        <el-form-item label="Email" prop="email">
+          <el-input v-model="data.form.email" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="Teacher" prop="teacher">
-          <el-input v-model="data.form.teacher" autocomplete="off" />
+        <el-form-item label="Sex" prop="sex">
+          <el-radio-group v-model="data.form.sex">
+            <el-radio label="Male"></el-radio>
+            <el-radio label="Female"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="Birth" prop="birth">
+          <el-date-picker format="YYYY-MM-DD" value-format="YYYY-MM-DD" v-model="data.form.birth" placeholder="YYYY-MM-DD" clearable></el-date-picker>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -68,35 +78,27 @@ import request from "@/utils/request";
 import {reactive, ref} from "vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 
-// request.get('/').then(res => {
-//   console.log(res)
-// })
+const baseUrl = '/student'
 
 const data = reactive({
-  courseName: '',
-  no: '',
-  teacher: '',
+  username: '',
+  name: '',
   pageNum: 1, // 当前的页码
   pageSize: 8, // 每页的个数
   total: 0,
-  tableData: [
-    // example
-    // {name: '高等数学', no:'JC3001', description: '大学数学真有趣', times: '48课时', teacher:'宋浩'},
-    // {name: '高等数学', no:'JC3001', description: '大学数学真有趣', times: '48课时', teacher:'宋浩'},
-  ],
+  tableData: [],
   formVisible: false,
   form: {},
 })
 
 // 加载课程信息
 const load = () => {
-  request.get('/course/selectPage', {
+  request.get(baseUrl + '/selectPage', {
     params: {
       pageNum: data.pageNum,
       pageSize: data.pageSize,
-      name: data.courseName,
-      no: data.no,
-      teacher: data.teacher,
+      username: data.username,
+      name: data.name,
     }
   }).then(res => {
     // console.log(res)
@@ -113,9 +115,8 @@ const handleCurrentChange = (pageNum) => {
 }
 
 const reset = () => {
-  data.courseName = ''
-  data.no = ''
-  data.teacher = ''
+  data.username = ''
+  data.name = ''
   load()
 }
 
@@ -134,20 +135,14 @@ const validateMessage = (rule, value, callback) => {
 
 const rules = reactive({
     // 名字要与prop名相同
+    username: [
+      { required: true, validator: validateMessage, trigger: 'change' }
+    ],
     name: [
       { validator: validateMessage, trigger: 'change' }
     ],
-    no: [
-      { validator: validateMessage, trigger: 'change' }
-    ],
-    description: [
-      { validator: validateMessage, trigger: 'change' }
-    ],
-    times: [
-      { validator: validateMessage, trigger: 'change' }
-    ],
-    teacher: [
-      { validator: validateMessage, trigger: 'change' }
+    password: [
+      { required: true, validator: validateMessage, trigger: 'change' }
     ],
   })
 
@@ -161,7 +156,7 @@ const save = () => {
   formRef.value.validate((valid) => {
     if (valid){
       request.request({
-        url: data.form.id ? '/course/update' : '/course/add',
+        url: data.form.id ? baseUrl + '/update' : baseUrl + '/add',
         method: data.form.id ? 'PUT' : 'POST',
         data: data.form
       }).then(res => {
@@ -186,7 +181,7 @@ const handleEdit = (row) => {
 
 const handleDelete = (id) => {
   ElMessageBox.confirm('Data cannot be recovered after deletion. Continue?', 'Warning', { confirmButtonText: 'Confirm', cancelButtonText: 'Cancel', type: 'warning' }).then(res => {
-    request.delete('course/delete/' + id).then(res => {
+    request.delete(baseUrl + '/delete/' + id).then(res => {
       if (res.code === '200') {
         load()
         data.formVisible = false
