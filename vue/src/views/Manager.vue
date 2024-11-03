@@ -9,7 +9,7 @@
       </div>
       <div style="width: fit-content; padding-right: 10px; display: flex; align-items: center;">
         <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" alt="" style="width: 40px; height: 40px">
-        <span style="margin-left: 5px">管理员</span>
+        <span style="margin-left: 5px">{{ user.name }}</span>
       </div>
     </div>
 
@@ -35,7 +35,7 @@
               <span>课程信息</span>
             </el-menu-item>
           </el-sub-menu>
-          <el-sub-menu index="3">
+          <el-sub-menu index="3" v-if="user.role === 'ADMIN'">
             <template #title>
               <el-icon><Files /></el-icon>
               <span>用户管理</span>
@@ -67,7 +67,8 @@
 <script setup>
 import { useRoute } from 'vue-router'
 const $route = useRoute()
-console.log($route.path)
+// console.log($route.path)
+const user = JSON.parse(localStorage.getItem('student-user') || '{}')
 
 const logout = () => {
   localStorage.removeItem('student-user')

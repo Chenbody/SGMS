@@ -25,7 +25,16 @@ public class StudentService {
      * 登陆
      */
     public Account login(Account account) {
-        return null;
+        Account dbStudent = studentMapper.selectByUsername(account.getUsername());
+        if (dbStudent == null) {
+            // 没查找到用户
+            throw new CustomException("Username or password is incorrect");
+        }
+        // 比较密码
+        if (!dbStudent.getPassword().equals(account.getPassword())) {
+            throw new CustomException("Username or password is incorrect");
+        }
+        return dbStudent;
     }
 
     /**
