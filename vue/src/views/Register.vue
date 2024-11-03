@@ -39,8 +39,8 @@ import router from "@/router";
     if (!value) {
       return callback(new Error('Cannot be empty'));
     }
-    if (/\s/.test(value)){
-      return callback(new Error(`Cannot have space`));
+    if (!/^\d+$/.test(value)) {
+      return callback(new Error('Username is your studentID'));
     }
     if (value.length > 200) {
       return callback(new Error('No more than 200 long'));

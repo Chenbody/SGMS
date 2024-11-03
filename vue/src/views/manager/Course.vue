@@ -127,7 +127,7 @@ const validateMessage = (rule, value, callback) => {
     }
     // 检查前后是否有多余的空格（输入应与去除空格后的输入相同）
     if (value !== value.trim()) {
-        return callback(new Error('Password cannot start or end with a space'));
+        return callback(new Error('Value cannot start or end with a space'));
     }
     callback();
   }

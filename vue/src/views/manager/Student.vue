@@ -38,19 +38,19 @@
     <el-dialog title="Message" width="40%" v-model="data.formVisible" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="data.form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
         <el-form-item label="Username" prop="username">
-          <el-input v-model="data.form.username" autocomplete="off" />
+          <el-input v-model="data.form.username" autocomplete="off" clearable />
         </el-form-item>
         <el-form-item label="Name" prop="name">
-          <el-input v-model="data.form.name" autocomplete="off" />
+          <el-input v-model="data.form.name" autocomplete="off" clearable />
         </el-form-item>
         <el-form-item label="Password" prop="password">
-          <el-input show-password v-model="data.form.password" autocomplete="off" />
+          <el-input show-password v-model="data.form.password" autocomplete="off" clearable />
         </el-form-item>
         <el-form-item label="PhoneNum" prop="phone">
-          <el-input v-model="data.form.phone" autocomplete="off" />
+          <el-input v-model="data.form.phone" autocomplete="off" clearable />
         </el-form-item>
         <el-form-item label="Email" prop="email">
-          <el-input v-model="data.form.email" autocomplete="off" />
+          <el-input v-model="data.form.email" autocomplete="off" clearable />
         </el-form-item>
         <el-form-item label="Sex" prop="sex">
           <el-radio-group v-model="data.form.sex">
@@ -122,27 +122,65 @@ const reset = () => {
 
 const formRef = ref()
 
+// const validateMessage = (rule, value, callback) => {
+//     if (!value) {
+//       return callback(new Error('Cannot be empty'));
+//     }
+//     // 检查前后是否有多余的空格（输入应与去除空格后的输入相同）
+//     if (value !== value.trim()) {
+//         return callback(new Error('Password cannot start or end with a space'));
+//     }
+//     callback();
+//   }
+
 const validateMessage = (rule, value, callback) => {
-    if (!value) {
-      return callback(new Error('Cannot be empty'));
-    }
-    // 检查前后是否有多余的空格（输入应与去除空格后的输入相同）
-    if (value !== value.trim()) {
-        return callback(new Error('Password cannot start or end with a space'));
-    }
+  if (!value) {
+    return callback()
+  }
+  if (value.length > 200) {
+    return callback(new Error('No more than 200 long'));
+  }
     callback();
   }
+
+const validateUsername = (rule, value, callback) => {
+  if (!value) {
+    return callback(new Error('Cannot be empty'));
+  }
+  if (!/^\d+$/.test(value)) {
+    return callback(new Error('Username is studentID'));
+  }
+  if (value.length > 200) {
+    return callback(new Error('No more than 200 long'));
+  }
+  callback();
+}
+  
+
+const validatePassword = (rule, value, callback) => {
+  if (!value) {
+    return callback(new Error('Cannot be empty'));
+  }
+  // 正则表达式 至少一个字母和一个数字，长度6-12位，不包含空格
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[^\s]{6,12}$/;
+
+  if (!passwordRegex.test(value)) {
+    return callback(new Error('6-12 long, no space, need letter and digit'));
+  }
+  callback();
+}
+
 
 const rules = reactive({
     // 名字要与prop名相同
     username: [
-      { required: true, validator: validateMessage, trigger: 'change' }
+      { required: true, validator: validateUsername, trigger: 'change' }
     ],
     name: [
       { validator: validateMessage, trigger: 'change' }
     ],
     password: [
-      { required: true, validator: validateMessage, trigger: 'change' }
+      { required: true, validator: validatePassword, trigger: 'change' }
     ],
   })
 
