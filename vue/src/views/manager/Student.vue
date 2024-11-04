@@ -19,7 +19,11 @@
         <el-table-column label="Email" prop="email"></el-table-column>
         <el-table-column label="Sex" prop="sex"></el-table-column>
         <el-table-column label="Birth" prop="birth"></el-table-column>
-        <el-table-column label="Avatar" prop="avatar"></el-table-column>
+        <el-table-column label="Avatar" prop="avatar">
+          <template #default="scope">
+            <el-image v-if="scope.row.avatar" :src="scope.row.avatar" :preview-src-list="[scope.row.avatar]" style="width: 40px;height: 40px;border-radius: 5px;" fit="cover"></el-image>
+          </template>
+        </el-table-column>
         <el-table-column label="Operation" style="align-items: center;" width="180">
           <template #default="scope">
             <el-button type="primary" @click="handleEdit(scope.row)">Edit</el-button>
@@ -60,6 +64,11 @@
         </el-form-item>
         <el-form-item label="Birth" prop="birth">
           <el-date-picker format="YYYY-MM-DD" value-format="YYYY-MM-DD" v-model="data.form.birth" placeholder="YYYY-MM-DD" clearable></el-date-picker>
+        </el-form-item>
+        <el-form-item label="Avatar">
+          <el-upload action="http://localhost:9090/files/upload" list-type="picture" :on-success="handleImgUploadSuccess">
+            <el-button type="primary">Upload avatar</el-button>
+          </el-upload>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -232,4 +241,11 @@ const handleDelete = (id) => {
     // ElMessage({type: 'info', message: 'Delete canceled'})
   })
 }
+
+const handleImgUploadSuccess = (res) => {
+  // console.log(res)
+  data.form.avatar = res.data
+
+}
+
 </script>

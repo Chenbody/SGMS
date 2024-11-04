@@ -5,7 +5,7 @@
         <div style="font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 30px;">Login</div>
         <el-form :model="data.form" ref="formRef" :rules="rules">
           <el-form-item prop="username">
-            <el-input prefix-icon="User" clearable v-model="data.form.username" placeholder="please enter username"/>
+            <el-input prefix-icon="User" clearable v-model="data.form.username" placeholder="please enter username" @keyup.enter="login"/>
           </el-form-item>
           <el-form-item prop="password">
             <el-input show-password clearable prefix-icon="Lock" v-model="data.form.password" placeholder="please enter password" @keyup.enter="login"/>
