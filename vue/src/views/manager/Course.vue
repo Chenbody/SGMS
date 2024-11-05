@@ -186,7 +186,7 @@ const handleEdit = (row) => {
 
 const handleDelete = (id) => {
   ElMessageBox.confirm('Data cannot be recovered after deletion. Continue?', 'Warning', { confirmButtonText: 'Confirm', cancelButtonText: 'Cancel', type: 'warning' }).then(res => {
-    request.delete('course/delete/' + id).then(res => {
+    request.delete('/course/delete/' + id).then(res => {
       if (res.code === '200') {
         load()
         data.formVisible = false
