@@ -24,10 +24,10 @@
                 <el-input v-model="data.form.email" autocomplete="off" clearable />
                 </el-form-item>
                 <el-form-item label="Sex" prop="sex">
-                <el-radio-group v-model="data.form.sex">
-                    <el-radio label="Male"></el-radio>
-                    <el-radio label="Female"></el-radio>
-                </el-radio-group>
+                    <el-radio-group v-model="data.form.sex">
+                        <el-radio label="Male"></el-radio>
+                        <el-radio label="Female"></el-radio>
+                    </el-radio-group>
                 </el-form-item>
                 <el-form-item label="Birth" prop="birth">
                 <el-date-picker format="YYYY-MM-DD" value-format="YYYY-MM-DD" v-model="data.form.birth" placeholder="YYYY-MM-DD" clearable></el-date-picker>

@@ -2,6 +2,7 @@
   <div>
 
     <div class="card" style="margin-bottom: 10px;">
+      <el-input style="width: 250px; margin: 8px" placeholder="Search with student username" v-model="data.username" prefix-icon="Search" clearable @keyup.enter="load"></el-input>
       <el-input style="width: 250px; margin: 8px" placeholder="Search with course name" v-model="data.courseName" prefix-icon="Search" clearable @keyup.enter="load"></el-input>
       <el-input style="width: 250px; margin: 8px" placeholder="Search with course num" v-model="data.no" prefix-icon="Search" clearable @keyup.enter="load"></el-input>
       <el-button type="primary" @click="load" style="margin-left: 8px;">Search</el-button>
@@ -10,14 +11,18 @@
 
     <div class="card" style="margin-bottom: 10px">
       <el-table stripe :data="data.tableData">
-        <el-table-column label="Course" prop="name"></el-table-column>
+        <el-table-column label="Course" prop="courseName"></el-table-column>
         <el-table-column label="Number" prop="no"></el-table-column>
         <el-table-column label="StudentUsername" prop="studentUsername"></el-table-column>
         <el-table-column label="StudentName" prop="studentName"></el-table-column>
+        <el-table-column label="Score" prop="score"></el-table-column>
+        <el-table-column label="Comment" prop="comment"></el-table-column>
+        <el-table-column label="Feedback" prop="feedback"></el-table-column>
         <el-table-column label="Operation" style="align-items: center;" width="180">
           <template #default="scope">
-            <el-button type="primary" @click="addGrade(scope.row)" v-if="data.user.role === 'ADMIN'">Grade</el-button>
-            <el-button type="danger" @click="del(scope.row.id)">Delete</el-button>
+            <el-button type="primary" @click="handleEdit(scope.row)" v-if="data.user.role === 'STUDENT'">Feedback</el-button>
+            <el-button type="primary" @click="handleEdit(scope.row)" v-if="data.user.role === 'ADMIN'">Edit</el-button>
+            <el-button type="danger" @click="del(scope.row.id)" v-if="data.user.role === 'ADMIN'">Delete</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -31,18 +36,15 @@
 
     <!-- 弹窗 -->
     <el-dialog title="Message" width="40%" v-model="data.formVisible" :close-on-click-modal="false" destroy-on-close>
-      <el-form :model="data.gradeForm" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
-        <el-form-item label="Course" prop="name">
-          <el-input v-model="data.gradeForm.name" autocomplete="off" disabled />
+      <el-form :model="data.form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
+        <el-form-item label="Score" prop="score" v-if="data.user.role === 'ADMIN'">
+          <el-input v-model="data.form.score" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="Number" prop="no">
-          <el-input v-model="data.gradeForm.no" autocomplete="off" disabled />
+        <el-form-item label="Comment" prop="comment" v-if="data.user.role === 'ADMIN'">
+          <el-input type="textarea" v-model="data.form.comment" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="Score" prop="score">
-          <el-input v-model="data.gradeForm.score" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="Comment" prop="comment">
-          <el-input type="textarea" v-model="data.gradeForm.comment" autocomplete="off" />
+        <el-form-item label="Feedback" prop="feedback" v-if="data.user.role === 'STUDENT'">
+          <el-input type="textarea" v-model="data.form.feedback" autocomplete="off" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -68,6 +70,8 @@ import {ElMessage, ElMessageBox} from "element-plus";
 // })
 
 const data = reactive({
+  form: {},
+  username: '',
   courseName: '',
   no: '',
   pageNum: 1, // 当前的页码
@@ -75,7 +79,6 @@ const data = reactive({
   total: 0,
   tableData: [],
   user: JSON.parse(localStorage.getItem('student-user') || '{}'),
-  gradeForm: {},
   formVisible: false,
 })
 
@@ -84,13 +87,14 @@ const load = () => {
   let params = {
       pageNum: data.pageNum,
       pageSize: data.pageSize,
-      name: data.courseName,
+      courseName: data.courseName,
+      studentUsername: data.username,
       no: data.no,
   }
   if (data.user.role === "STUDENT") { // 如果用户为学生，则查询学生自己的选课记录
     params.studentId = data.user.id
   } 
-  request.get('/studentCourse/selectPage', {
+  request.get('/grade/selectPage', {
     params: params
   }).then(res => {
     // console.log(res)
@@ -109,12 +113,13 @@ const handleCurrentChange = (pageNum) => {
 const reset = () => {
   data.courseName = ''
   data.no = ''
+  data.username = ''
   load()
 }
 
 const del = (id) => {
   ElMessageBox.confirm('This course selection will be deleted. Continue?', 'Warning', { confirmButtonText: 'Confirm', cancelButtonText: 'Cancel', type: 'warning' }).then(res => {
-    request.delete('/studentCourse/delete/' + id).then(res => {
+    request.delete('/grade/delete/' + id).then(res => {
       if (res.code === '200') {
         load()
         ElMessage.success("Completed successfully")
@@ -127,19 +132,16 @@ const del = (id) => {
   })
 }
 
-const addGrade = (row) => {
+const handleEdit = (row) => {
   // console.log(row)
   // 弹窗
-  data.gradeForm = {}
-  data.gradeForm.name = row.name
-  data.gradeForm.no = row.no
-  data.gradeForm.courseId = row.courseId
-  data.gradeForm.studentId = row.studentId
+  data.form = JSON.parse(JSON.stringify(row))
   data.formVisible = true
+
 }
 
 const save = () => {
-  request.post('/grade/add', data.gradeForm).then(res => {
+  request.put('/grade/update', data.form).then(res => {
     if (res.code === '200') {
       data.formVisible = false
       load()
