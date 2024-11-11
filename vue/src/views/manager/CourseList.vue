@@ -18,7 +18,7 @@
         <el-table-column label="Teacher" prop="teacher"></el-table-column>
         <el-table-column label="Operation" style="align-items: center;" width="180">
           <template #default="scope">
-            <el-button type="primary" @click="selectCourse(scope.row)">Select</el-button>
+            <el-button type="primary" style="width: 80px;" @click="selectCourse(scope.row)" :disabled="scope.row.isSelected === 'Yes'">{{ scope.row.isSelected === 'Yes' ? 'Selected' : 'Select' }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -56,13 +56,14 @@ const data = reactive({
 
 // 加载课程信息
 const load = () => {
-  request.get('/course/selectPage', {
+  request.get('/studentCourse/studentSelect', {
     params: {
       pageNum: data.pageNum,
       pageSize: data.pageSize,
       name: data.courseName,
       no: data.no,
       teacher: data.teacher,
+      studentId: data.user.id,
     }
   }).then(res => {
     // console.log(res)
@@ -86,8 +87,10 @@ const reset = () => {
 }
 
 const selectCourse = (row) => {
+  // console.log(row)
   request.post('/studentCourse/add', {studentId: data.user.id, name: row.name, no: row.no, courseId: row.id}).then(res => {
     if (res.code === '200'){
+      row.isSelected = 'Yes';
       ElMessage.success("Completed successfully")
     } else {
       ElMessage.error(res.msg)

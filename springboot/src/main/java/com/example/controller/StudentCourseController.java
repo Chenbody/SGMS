@@ -25,6 +25,20 @@ public class StudentCourseController {
         return Result.success();
     }
 
+    /**
+     * 展示学生的选课列表
+     */
+    @GetMapping("/studentSelect")
+    public Result studentSelect(@RequestParam(defaultValue = "1") Integer pageNum,
+                             @RequestParam(defaultValue = "5") Integer pageSize,
+                             Course course) {
+        PageInfo<Course> pageInfo = studentCourseService.studentSelect(pageNum, pageSize, course);
+        return Result.success(pageInfo);
+    }
+
+    /**
+     * 展示选课记录
+     */
     @GetMapping("/selectPage")
     public Result selectPage(@RequestParam(defaultValue = "1") Integer pageNum,
                              @RequestParam(defaultValue = "5") Integer pageSize,

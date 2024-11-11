@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.entity.Course;
 import com.example.entity.StudentCourse;
 import com.example.exception.CustomException;
 import com.example.mapper.StudentCourseMapper;
@@ -32,5 +33,11 @@ public class StudentCourseService {
 
     public void deleteById(Integer id) {
         studentCourseMapper.deleteById(id);
+    }
+
+    public PageInfo<Course> studentSelect(Integer pageNum, Integer pageSize, Course course) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Course> list = studentCourseMapper.studentSelect(course);
+        return PageInfo.of(list);
     }
 }

@@ -10,6 +10,9 @@
           <el-form-item prop="password">
             <el-input show-password clearable prefix-icon="Lock" v-model="data.form.password" placeholder="please enter password"/>
           </el-form-item>
+          <el-form-item prop="checkPass">
+            <el-input show-password clearable prefix-icon="Lock" v-model="data.form.checkPass" placeholder="please enter password again"/>
+          </el-form-item>
           <el-form-item>
             <el-button type="primary" style="width: 100%;" @click="register">Confirm</el-button>
           </el-form-item>
@@ -32,6 +35,7 @@ import router from "@/router";
     form: {
       username: "",
       password: "",
+      checkPass: "",
     }
   })
 
@@ -61,6 +65,16 @@ import router from "@/router";
     }
     callback();
   }
+  
+  const validatePassword2 = (rule, value, callback) => {
+    if (!value) {
+      return callback(new Error('Cannot be empty'));
+    }
+    if (value !== data.form.password) {
+      return callback(new Error("Two inputs don't match!"));
+    }
+    callback();
+  }
 
 
   const rules = reactive({
@@ -70,7 +84,10 @@ import router from "@/router";
     ],
     password: [
       { validator: validatePassword, trigger: 'change' }
-    ]
+    ],
+    checkPass: [
+      { validator: validatePassword2, trigger: 'blur' }
+    ],
   })
 
   const formRef = ref()

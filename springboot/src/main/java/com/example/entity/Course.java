@@ -7,6 +7,24 @@ public class Course {
     private String description;
     private String times;
     private String teacher;
+    private String isSelected;
+    private Integer studentId;
+
+    public Integer getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Integer studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(String isSelected) {
+        this.isSelected = isSelected;
+    }
 
     public Integer getId() {
         return id;

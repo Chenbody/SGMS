@@ -33,7 +33,7 @@
                 <el-date-picker format="YYYY-MM-DD" value-format="YYYY-MM-DD" v-model="data.form.birth" placeholder="YYYY-MM-DD" clearable></el-date-picker>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="update">Save</el-button>
+                    <el-button type="primary" @click="handleUpdate">Save</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -112,6 +112,13 @@ const update = () => {
     })
 }
 
+const handleUpdate = () => {
+  ElMessageBox.confirm('You need to log in again after changing your information. Continue?', 'Warning', { confirmButtonText: 'Confirm', cancelButtonText: 'Cancel', type: 'warning' }).then(res => {
+    update()
+  }).catch(err => {
+    // ElMessage({type: 'info', message: 'Delete canceled'})
+  })
+}
 
 
 </script>
