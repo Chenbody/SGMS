@@ -25,7 +25,7 @@ public class FileController {
     @Value("${server.port}")
     private String port;
 
-    private static final String ROOT_PATH = System.getProperty("user.dir") + "/files";
+    private static final String ROOT_PATH = System.getProperty("user.dir") + "/files/avatars";
 
     /**
      * 文件上传

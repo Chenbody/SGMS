@@ -7,6 +7,9 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @RestController
 @RequestMapping("/student")
@@ -29,6 +32,25 @@ public class StudentController {
 
     @PutMapping("/update")
     public Result update(@RequestBody Student student) {
+        Student dbStudent = studentService.selectById(student);
+
+        if (dbStudent.getAvatar() != null) {
+            try {
+                // 解析文件名
+                String baseUrl = "http://localhost:9090/files/download?fileName=";
+                String fileName = dbStudent.getAvatar().substring(baseUrl.length());
+                Path path = Paths.get(System.getProperty("user.dir") + "/files/avatars/" + fileName);
+
+                // 删除文件
+                if (Files.exists(path)) {
+                    Files.delete(path);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Result.error("Failed to delete avatar file");
+            }
+        }
+
         studentService.updateById(student);
         return Result.success();
     }

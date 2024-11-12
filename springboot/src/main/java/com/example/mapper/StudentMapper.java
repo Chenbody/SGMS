@@ -24,4 +24,7 @@ public interface StudentMapper {
 
     @Update("update student set username = #{username}, password = #{password}, name = #{name}, phone = #{phone}, email = #{email}, sex = #{sex}, birth = #{birth}, avatar = #{avatar} where id = #{id}")
     void updateById(Student student);
+
+    @Select("select * from student where id = #{id}")
+    Student selectById(Student student);
 }

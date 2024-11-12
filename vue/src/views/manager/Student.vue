@@ -3,7 +3,7 @@
 
     <div class="card" style="margin-bottom: 10px;">
       <el-input style="width: 250px; margin: 8px" placeholder="Search with username" v-model="data.username" prefix-icon="Search" clearable @keyup.enter="load"></el-input>
-      <el-input style="width: 250px; margin: 8px" placeholder="Search with name(nickname)" v-model="data.name" prefix-icon="Search" clearable @keyup.enter="load"></el-input>
+      <el-input style="width: 250px; margin: 8px" placeholder="Search with name" v-model="data.name" prefix-icon="Search" clearable @keyup.enter="load"></el-input>
       <el-button type="primary" @click="load" style="margin-left: 8px;">Search</el-button>
       <el-button type="info" style="margin: 0 10px" @click="reset">Reset</el-button>
     </div>

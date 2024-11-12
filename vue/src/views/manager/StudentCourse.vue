@@ -2,6 +2,7 @@
   <div>
 
     <div class="card" style="margin-bottom: 10px;">
+      <el-input style="width: 250px; margin: 8px" placeholder="Search with student username" v-model="data.username" prefix-icon="Search" clearable @keyup.enter="load" v-if="data.user.role === 'ADMIN'"></el-input>
       <el-input style="width: 250px; margin: 8px" placeholder="Search with course name" v-model="data.courseName" prefix-icon="Search" clearable @keyup.enter="load"></el-input>
       <el-input style="width: 250px; margin: 8px" placeholder="Search with course num" v-model="data.no" prefix-icon="Search" clearable @keyup.enter="load"></el-input>
       <el-button type="primary" @click="load" style="margin-left: 8px;">Search</el-button>
@@ -14,10 +15,11 @@
         <el-table-column label="Number" prop="no"></el-table-column>
         <el-table-column label="StudentUsername" prop="studentUsername"></el-table-column>
         <el-table-column label="StudentName" prop="studentName"></el-table-column>
+        <el-table-column label="Score" prop="score"></el-table-column>
         <el-table-column label="Operation" style="align-items: center;" width="180">
           <template #default="scope">
             <el-button type="primary" @click="addGrade(scope.row)" v-if="data.user.role === 'ADMIN'">Grade</el-button>
-            <el-button type="danger" @click="del(scope.row.id)">Delete</el-button>
+            <el-button type="danger" @click="del(scope.row.id)" :disabled="scope.row.score !== null && data.user.role === 'STUDENT'">Delete</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -86,6 +88,7 @@ const load = () => {
       pageSize: data.pageSize,
       name: data.courseName,
       no: data.no,
+      studentUsername: data.username,
   }
   if (data.user.role === "STUDENT") { // 如果用户为学生，则查询学生自己的选课记录
     params.studentId = data.user.id
@@ -109,6 +112,7 @@ const handleCurrentChange = (pageNum) => {
 const reset = () => {
   data.courseName = ''
   data.no = ''
+  data.username = ''
   load()
 }
 

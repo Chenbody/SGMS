@@ -2,7 +2,7 @@
   <div>
 
     <div class="card" style="margin-bottom: 10px;">
-      <el-input style="width: 250px; margin: 8px" placeholder="Search with student username" v-model="data.username" prefix-icon="Search" clearable @keyup.enter="load"></el-input>
+      <el-input style="width: 250px; margin: 8px" placeholder="Search with student username" v-model="data.username" prefix-icon="Search" clearable @keyup.enter="load" v-if="data.user.role === 'ADMIN'"></el-input>
       <el-input style="width: 250px; margin: 8px" placeholder="Search with course name" v-model="data.courseName" prefix-icon="Search" clearable @keyup.enter="load"></el-input>
       <el-input style="width: 250px; margin: 8px" placeholder="Search with course num" v-model="data.no" prefix-icon="Search" clearable @keyup.enter="load"></el-input>
       <el-button type="primary" @click="load" style="margin-left: 8px;">Search</el-button>

@@ -80,4 +80,9 @@ public class StudentService {
         List<Student> studentList = studentMapper.selectAll(student);
         return PageInfo.of(studentList);
     }
+
+    public Student selectById(Student student) {
+        Student dbStudent = studentMapper.selectById(student);
+        return dbStudent;
+    }
 }

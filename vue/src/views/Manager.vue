@@ -45,11 +45,11 @@
           </el-sub-menu>
           <el-sub-menu index="3">
             <template #title>
-              <el-icon><Memo /></el-icon>
+              <el-icon><Collection /></el-icon>
               <span>成绩信息</span>
             </template>
             <el-menu-item index="/grade">
-              <el-icon><Document /></el-icon>
+              <el-icon><Medal /></el-icon>
               <span>成绩及反馈</span>
             </el-menu-item>
           </el-sub-menu>
