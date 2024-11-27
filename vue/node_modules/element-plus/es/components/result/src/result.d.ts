@@ -12,5 +12,5 @@ export declare const resultProps: {
     readonly subTitle: import("element-plus/es/utils").EpPropFinalized<StringConstructor, unknown, unknown, "", boolean>;
     readonly icon: import("element-plus/es/utils").EpPropFinalized<StringConstructor, "error" | "success" | "warning" | "info", unknown, "info", boolean>;
 };
-export declare type ResultProps = ExtractPropTypes<typeof resultProps>;
-export declare type ResultInstance = InstanceType<typeof Result>;
+export type ResultProps = ExtractPropTypes<typeof resultProps>;
+export type ResultInstance = InstanceType<typeof Result>;

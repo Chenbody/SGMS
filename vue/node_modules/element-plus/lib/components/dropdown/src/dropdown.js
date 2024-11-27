@@ -7,7 +7,7 @@ require('../../../constants/index.js');
 require('../../collection/index.js');
 require('../../tooltip/index.js');
 var runtime = require('../../../utils/vue/props/runtime.js');
-var trigger = require('../../tooltip/src/trigger.js');
+var trigger = require('../../tooltip/src/trigger2.js');
 var content = require('../../tooltip/src/content.js');
 var icon = require('../../../utils/vue/icon.js');
 var aria = require('../../../constants/aria.js');

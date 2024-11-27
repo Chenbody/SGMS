@@ -1,5 +1,5 @@
 import type { ExtractPropTypes, InjectionKey, Ref } from 'vue';
-declare type EmptyValuesContext = ExtractPropTypes<typeof useEmptyValuesProps>;
+type EmptyValuesContext = ExtractPropTypes<typeof useEmptyValuesProps>;
 export declare const emptyValuesContextKey: InjectionKey<Ref<EmptyValuesContext>>;
 export declare const SCOPE = "use-empty-values";
 export declare const DEFAULT_EMPTY_VALUES: (string | null | undefined)[];

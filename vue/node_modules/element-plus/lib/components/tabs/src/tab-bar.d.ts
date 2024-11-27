@@ -3,9 +3,7 @@ import type TabBar from './tab-bar.vue';
 export declare const tabBarProps: {
     readonly tabs: import("element-plus/es/utils").EpPropFinalized<(new (...args: any[]) => {
         uid: number;
-        slots: Readonly<{
-            [name: string]: import("vue").Slot | undefined;
-        }>;
+        slots: import("vue").Slots;
         props: {
             readonly label: string;
             readonly disabled: boolean;
@@ -19,9 +17,7 @@ export declare const tabBarProps: {
         isClosable: boolean;
     }[]) | (() => {
         uid: number;
-        slots: Readonly<{
-            [name: string]: import("vue").Slot | undefined;
-        }>;
+        slots: import("vue").Slots;
         props: {
             readonly label: string;
             readonly disabled: boolean;
@@ -35,9 +31,7 @@ export declare const tabBarProps: {
         isClosable: boolean;
     }[]) | ((new (...args: any[]) => {
         uid: number;
-        slots: Readonly<{
-            [name: string]: import("vue").Slot | undefined;
-        }>;
+        slots: import("vue").Slots;
         props: {
             readonly label: string;
             readonly disabled: boolean;
@@ -51,9 +45,7 @@ export declare const tabBarProps: {
         isClosable: boolean;
     }[]) | (() => {
         uid: number;
-        slots: Readonly<{
-            [name: string]: import("vue").Slot | undefined;
-        }>;
+        slots: import("vue").Slots;
         props: {
             readonly label: string;
             readonly disabled: boolean;
@@ -67,5 +59,5 @@ export declare const tabBarProps: {
         isClosable: boolean;
     }[]))[], unknown, unknown, () => [], boolean>;
 };
-export declare type TabBarProps = ExtractPropTypes<typeof tabBarProps>;
-export declare type TabBarInstance = InstanceType<typeof TabBar>;
+export type TabBarProps = ExtractPropTypes<typeof tabBarProps>;
+export type TabBarInstance = InstanceType<typeof TabBar>;

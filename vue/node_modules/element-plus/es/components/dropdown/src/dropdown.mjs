@@ -3,7 +3,7 @@ import '../../../constants/index.mjs';
 import '../../collection/index.mjs';
 import '../../tooltip/index.mjs';
 import { buildProps, definePropType } from '../../../utils/vue/props/runtime.mjs';
-import { useTooltipTriggerProps } from '../../tooltip/src/trigger.mjs';
+import { useTooltipTriggerProps } from '../../tooltip/src/trigger2.mjs';
 import { useTooltipContentProps } from '../../tooltip/src/content.mjs';
 import { iconPropType } from '../../../utils/vue/icon.mjs';
 import { EVENT_CODE } from '../../../constants/aria.mjs';

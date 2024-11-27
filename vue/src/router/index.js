@@ -22,7 +22,6 @@ const router = createRouter({
       path: '/login',
       name: 'Login',
       component: () => import('@/views/Login.vue'),
-      
     },
     {
       path: '/register',
@@ -31,6 +30,61 @@ const router = createRouter({
       
     },
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  // path that requires login
+  let loggedInPath = ['/home', '/grade', '/studentCourse'];
+  // path that requires user to be a student
+  let studentPath = ['/person', '/courseList'];
+  // path that requires user to be an admin
+  let adminPath = ['/student', '/course'];
+  // path that would log out the account
+  let loggedOutPath = ['/login', '/register'];
+  let user = JSON.parse(localStorage.getItem('student-user'));
+
+  // check if logged in
+  if (loggedInPath.includes(to.path)) {
+    if (user == undefined) {
+      next('/login');
+    } else {
+      next(true);
+    }
+  }
+  // check if account is student
+  else if (studentPath.includes(to.path)) {
+    if (user == undefined || user.role != 'STUDENT') {
+      if (from.path != undefined) {
+        next(from.path);
+      } else {
+        next('/home');
+      }
+    } else {
+      next(true);
+    }
+  }
+  // check if account is admin
+  else if (adminPath.includes(to.path)) {
+    if (user == undefined || user.role != 'ADMIN') {
+      if (from.path != undefined) {
+        next(from.path);
+      } else {
+        next('/home');
+      }
+    } else {
+      next(true);
+    }
+  }
+  // log out if already logged in
+  else if (loggedOutPath.includes(to.path)) {
+    if (user != undefined) {
+      localStorage.removeItem('student-user');
+    }
+    next(true);
+  }
+  else {
+    next('/home');
+  }
 })
 
 export default router

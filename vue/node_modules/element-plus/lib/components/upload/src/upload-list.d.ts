@@ -15,15 +15,15 @@ export declare const uploadListProps: {
     })[], unknown, unknown, () => void, boolean>;
     readonly listType: import("element-plus/es/utils").EpPropFinalized<StringConstructor, "picture" | "text" | "picture-card", unknown, "text", boolean>;
     readonly crossorigin: {
-        readonly type: import("vue").PropType<import("element-plus/es/utils").EpPropMergeType<(new (...args: any[]) => ("" | "anonymous" | "use-credentials") & {}) | (() => "" | "anonymous" | "use-credentials") | ((new (...args: any[]) => ("" | "anonymous" | "use-credentials") & {}) | (() => "" | "anonymous" | "use-credentials"))[], unknown, unknown>>;
+        readonly type: import("vue").PropType<import("element-plus/es/utils").EpPropMergeType<(new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials") | ((new (...args: any[]) => "" | "anonymous" | "use-credentials") | (() => "" | "anonymous" | "use-credentials"))[], unknown, unknown>>;
         readonly required: false;
         readonly validator: ((val: unknown) => boolean) | undefined;
         __epPropKey: true;
     };
 };
-export declare type UploadListProps = ExtractPropTypes<typeof uploadListProps>;
+export type UploadListProps = ExtractPropTypes<typeof uploadListProps>;
 export declare const uploadListEmits: {
     remove: (file: UploadFile) => boolean;
 };
-export declare type UploadListEmits = typeof uploadListEmits;
-export declare type UploadListInstance = InstanceType<typeof UploadList>;
+export type UploadListEmits = typeof uploadListEmits;
+export type UploadListInstance = InstanceType<typeof UploadList>;

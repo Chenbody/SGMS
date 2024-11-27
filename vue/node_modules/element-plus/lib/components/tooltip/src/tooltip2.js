@@ -8,7 +8,7 @@ require('../../../utils/index.js');
 require('../../../hooks/index.js');
 var constants = require('./constants.js');
 var tooltip = require('./tooltip.js');
-var trigger = require('./trigger2.js');
+var trigger = require('./trigger.js');
 var content = require('./content2.js');
 var pluginVue_exportHelper = require('../../../_virtual/plugin-vue_export-helper.js');
 var index = require('../../../hooks/use-popper-container/index.js');
