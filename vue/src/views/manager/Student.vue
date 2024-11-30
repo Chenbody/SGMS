@@ -21,7 +21,12 @@
         <el-table-column label="Birth" prop="birth"></el-table-column>
         <el-table-column label="Avatar" prop="avatar">
           <template #default="scope">
-            <el-image v-if="scope.row.avatar" :src="scope.row.avatar" :preview-src-list="[scope.row.avatar]" style="width: 40px;height: 40px;border-radius: 5px;" fit="cover"></el-image>
+            <img 
+              v-if="scope.row.avatar" 
+              :src="scope.row.avatar"  
+              style="width: 40px;height: 40px;border-radius: 5px;cursor: pointer;" 
+              @click="openPreview(scope.row.avatar)"
+            />
           </template>
         </el-table-column>
         <el-table-column label="Operation" style="align-items: center;" width="180">
@@ -31,6 +36,11 @@
           </template>
         </el-table-column>
       </el-table>
+
+          <!-- 预览大图的对话框 -->
+      <el-dialog v-model="dialogVisible" width="40%" center>
+        <img :src="previewImage" alt="Preview Image" style="width:100%;height:auto;">
+      </el-dialog>
     </div>
 
     <!-- 翻页条 -->
@@ -89,6 +99,10 @@ import {ElMessage, ElMessageBox} from "element-plus";
 
 const baseUrl = '/student'
 
+// 响应式变量
+const dialogVisible = ref(false);
+const previewImage = ref('');
+
 const data = reactive({
   username: '',
   name: '',
@@ -99,6 +113,12 @@ const data = reactive({
   formVisible: false,
   form: {},
 })
+
+// 打开图片预览对话框的方法
+const openPreview = (src) => {
+  previewImage.value = src;
+  dialogVisible.value = true;
+};
 
 // 加载课程信息
 const load = () => {
