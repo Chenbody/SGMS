@@ -15,7 +15,14 @@
                 <el-input v-model="data.form.name" autocomplete="off" clearable />
                 </el-form-item>
                 <el-form-item label="Password" required="true" prop="password">
-                <el-input show-password v-model="data.form.password" autocomplete="off" clearable />
+                <el-input show-password :disabled="!data.isPasswordChanged" v-model="data.form.password" autocomplete="off" clearable />
+                </el-form-item>
+                <el-form-item>
+                  <el-checkbox
+                    v-model="data.isPasswordChanged"
+                    @change="handleCheckboxChange" >
+                    Change Password
+                  </el-checkbox>
                 </el-form-item>
                 <el-form-item label="PhoneNum" prop="phone">
                 <el-input v-model="data.form.phone" autocomplete="off" clearable />
@@ -49,7 +56,9 @@ import router from "@/router";
 
 
 const data = reactive({
-    form: JSON.parse(localStorage.getItem('student-user') || '{}')
+    form: JSON.parse(localStorage.getItem('student-user') || '{}'),
+    isPasswordChanged: false,
+    originalPassword: '',
 })
 
 const handleImgUploadSuccess = (res) => {
@@ -76,7 +85,7 @@ const validatePassword = (rule, value, callback) => {
   // 正则表达式 至少一个字母和一个数字，长度6-12位，不包含空格
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[^\s]{6,12}$/;
 
-  if (!passwordRegex.test(value)) {
+  if (!passwordRegex.test(value) && data.isPasswordChanged === true) {
     return callback(new Error('6-12 long, no space, need letter and digit'));
   }
   callback();
@@ -120,6 +129,14 @@ const handleUpdate = () => {
   })
 }
 
+const handleCheckboxChange = () => {
+      if (data.isPasswordChanged) {
+        data.originalPassword = data.form.password;  // 保存当前密码
+        data.form.password = '';  // 清空密码
+      } else {
+        data.form.password = data.originalPassword;  // 恢复原密码
+      }
+    }
 
 </script>
 

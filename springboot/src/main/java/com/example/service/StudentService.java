@@ -71,6 +71,13 @@ public class StudentService {
     }
 
     public void updateById(Student student) {
+        // 要是改了密码，就需要对密码加密
+        Student dbStudent = studentMapper.selectById(student);
+        if (!dbStudent.getPassword().equals(student.getPassword())) {
+            // 使用BCrypt加密密码
+            String hashedPassword = BCrypt.hashpw(student.getPassword(), BCrypt.gensalt());
+            student.setPassword(hashedPassword);
+        }
         studentMapper.updateById(student);
     }
 
