@@ -1,6 +1,7 @@
 package com.example.service;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.crypto.digest.BCrypt;
 import com.example.common.RoleEnum;
 import com.example.entity.Account;
 import com.example.entity.Course;
@@ -30,8 +31,8 @@ public class StudentService {
             // 没查找到用户
             throw new CustomException("Username or password is incorrect");
         }
-        // 比较密码
-        if (!dbStudent.getPassword().equals(account.getPassword())) {
+        // 比较密码 dbStudent.getPassword().equals(account.getPassword())
+        if (!BCrypt.checkpw(account.getPassword(), dbStudent.getPassword())) {
             throw new CustomException("Username or password is incorrect");
         }
         return dbStudent;
@@ -43,7 +44,9 @@ public class StudentService {
     public void register(Account account) {
         Student student = new Student();
         student.setUsername(account.getUsername());
-        student.setPassword(account.getPassword());
+        // 使用BCrypt加密密码
+        String hashedPassword = BCrypt.hashpw(account.getPassword(), BCrypt.gensalt());
+        student.setPassword(hashedPassword);
         this.add(student);
     }
 
