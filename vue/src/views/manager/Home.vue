@@ -1,8 +1,11 @@
 <template>
-  <div>
-    <div class="card" style="line-height: 30px">
-      <div>Welcome back <span style="color: dodgerblue;">{{ user.name }}</span> , have a nice day!</div>
+    <div class="box">
+    <div>Welcome back <span style="color: dodgerblue; ">{{ user.name }}</span>, have a nice day!</div>
+    <div class="button-group" style="margin-left: auto; display: flex; gap: 20px;">
+      <button class="btn" @click="goToCourseSelection">快捷选课</button>
+      <button class="btn" @click="goToGradeQuery">快捷成绩</button>
     </div>
+  </div>
 
     <div class="image-carousel">
         <div class="carousel-track">
@@ -22,13 +25,13 @@
     <div class="main-content">
     <!-- 重要通知 -->
     <div class="section">
-      <h3>通知</h3>
-      <ul class="notification-list">
+    <h3>通知</h3>
+    <ul class="notification-list">
       <li v-for="(notice, index) in notifications" :key="index" class="notification-item">
         <!-- 左侧内容：置顶标志与通知标题 -->
         <div class="left-content">
           <span v-if="notice.isPinned" class="top-tag">【置顶】</span>
-          <span class="notice-title">{{ notice.title }}</span>
+          <a :href="notice.url" class="notice-title" target="_blank">{{ notice.title }}</a>
         </div>
         <!-- 右侧内容：标志与日期 -->
         <div class="right-content">
@@ -37,9 +40,9 @@
         </div>
       </li>
     </ul>
-    </div>
+  </div>
 
-    <!-- 快捷选课 -->
+    <!-- 消息 -->
     <div class="section">
       <h3>消息</h3>
       <ul class="message-list">
@@ -57,69 +60,74 @@
     </div>
   </div>
 
-  <div class="main-content">
-    <!-- 快捷成绩查询 -->
-    <div class="section">
-      <button class="btn" @click="goToGradeQuery">快捷查询成绩</button>
-    </div>
-
-    <!-- 快捷选课 -->
-    <div class="section">
-      <button class="btn" @click="goToCourseSelection">快捷选课</button>
-    </div>
-  </div>
-  </div>
 </template>
 
 <script setup>
-  import request from "@/utils/request";
-  const user = JSON.parse(localStorage.getItem('student-user') || '{}')
-  // console.log(user)
+import request from "@/utils/request";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-  import { ref } from "vue";
+// 用户信息
+const user = JSON.parse(localStorage.getItem('student-user') || '{}');
 
+// 路由实例
+const router = useRouter();
+  
 // 通知数据
 const notifications = ref([
   {
     isPinned: true,
-    title: "【通知】关于做好2024年下半年全国大学英语四、六级考试有...",
+    title: "【通知】 关于做好2024—2025第二学期选课相关工作...",
+    date: "2024-12-11",
+    url: "https://jwxt.scnu.edu.cn",
+  },
+  {
+    isPinned: true,
+    title: "【通知】关于做好2024年下半年全国大学英语四、六级考试...",
     date: "2024-12-06",
+    url: "https://cet-bm.neea.edu.cn",
   },
   {
-    isPinned: true,
-    title: "【通知】上课地点待更新 2024—2025（2）学期开设通...",
-    date: "2024-12-05",
+    isPinned: false,
+    title: "【通知】关于做好2025年第十六届蓝桥杯全国软件和信息技术专业人才...",
+    date: "2024-11-05",
+    url: "https://dasai.lanqiao.cn",
   },
   {
-    isPinned: true,
-    title: "【通知】全校通识教育选修课《中国合唱之美（2）》报名通知",
+    isPinned: false,
+    title: "【通知】关于雅思考试报名安排以及备考建议相关工作...",
     date: "2024-12-05",
-  },
-  {
-    isPinned: true,
-    title: "【通知】全校通识教育选修课《羊城地理面面观——地学家的视角...",
-    date: "2024-12-05",
+    url: "https://ielts.neea.cn",
   },
 ]);
 
 // 消息数据
 const messages = ref([
-  {title:"停课提醒:原定张军老师在第8周星期三第5-7节...",
+  {
+    title: "你的课程选择已完成并通过审批",
+    date: "2024-12-12 10:51:00",
+  },
+  {title:"停课提醒: 第8周星期三第5-7节的毛概课程停课",
    date:"2024-11-02 09:56:29"
   },
   {
-    title: "停课提醒：原定杨耀翔老师在第1周星期一第一...",
+    title: "停课提醒: 第1周星期一第1-4节的软件测试课程停课",
     date: "2024-09-02 09:56:29",
   },
   {
-    title: "免修免考审批",
-    date: "2024-03-12 10:51:00",
-  },
-  {
-    title: "免修免考审批",
+    title: "你的课程免修免考审批已通过",
     date: "2024-03-12 10:10:48",
   },
 ]);
+
+function goToGradeQuery() {
+  router.push({ name: "Grade" });
+}
+
+function goToCourseSelection() {
+  router.push({ name: "CourseList" });
+}
+
 </script>
 
 <style scoped>
@@ -140,7 +148,12 @@ const messages = ref([
 .carousel-track {
     display: flex;
     width: calc(400px * 9);
-    animation: scroll 30s linear infinite; /* Adjust the time to make the scrolling slower */
+    animation: scroll 30s linear infinite; 
+    animation-play-state: running; 
+}
+
+.carousel-track:hover {
+    animation-play-state: paused; 
 }
 
 .carousel-slide {
@@ -168,6 +181,14 @@ const messages = ref([
 @keyframes scroll {
     0% { transform: translateX(0); }
     100% { transform: translateX(calc(-300px * 9)); }
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
 }
 
 .main-content {
@@ -222,6 +243,13 @@ const messages = ref([
   margin-right: 10px;
 }
 
+.notification-item:hover
+{
+  background-color: #f8f9fa; 
+  transition: background-color 0.3s ease; 
+  cursor: pointer; 
+}
+
 /* 通知内容样式 */
 .notice-content {
   display: flex;
@@ -274,10 +302,8 @@ const messages = ref([
 
 /* 按钮样式 */
 .btn {
-  display: inline-block;
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  background-color: #4CAF50;
+  padding: 10px;
+  background-color: #028bfc;
   color: white;
   border: none;
   border-radius: 5px;
@@ -287,7 +313,7 @@ const messages = ref([
 }
 
 .btn:hover {
-  background-color: #45a049;
+  background-color: #12a17e;
 }
 
 /* 列表样式 */
