@@ -116,7 +116,7 @@ import router from "@/router";
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url("../assets/imgs/backgrond.png");
+    background-image: url("../assets/imgs/registerBackground.png");
     background-size: cover ;
   }
   .login-box{

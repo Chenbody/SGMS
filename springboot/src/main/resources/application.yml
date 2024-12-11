@@ -1,4 +1,5 @@
 server:
+  address: 0.0.0.0
   port: 9090
 
 # 数据库配置
@@ -21,4 +22,5 @@ mybatis:
     map-underscore-to-camel-case: true
   mapper-locations: classpath:mapper/*.xml
 
-ip: localhost
+#ip: localhost
+ip: 10.252.150.16
