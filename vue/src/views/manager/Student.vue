@@ -23,9 +23,9 @@
           <template #default="scope">
             <img 
               v-if="scope.row.avatar" 
-              :src="scope.row.avatar"  
+              :src="`${data.baseUrl}${scope.row.avatar}`"  
               style="width: 40px;height: 40px;border-radius: 5px;cursor: pointer;" 
-              @click="openPreview(scope.row.avatar)"
+              @click="openPreview(data.baseUrl + scope.row.avatar)"
             />
           </template>
         </el-table-column>
@@ -83,7 +83,7 @@
           <el-date-picker format="YYYY-MM-DD" value-format="YYYY-MM-DD" v-model="data.form.birth" placeholder="YYYY-MM-DD" clearable></el-date-picker>
         </el-form-item>
         <el-form-item label="Avatar">
-          <el-upload action="http://localhost:9090/files/upload" list-type="picture" :on-success="handleImgUploadSuccess">
+          <el-upload :action="`${data.baseUrl}/files/upload`" list-type="picture" :on-success="handleImgUploadSuccess">
             <el-button type="primary">Upload avatar</el-button>
           </el-upload>
         </el-form-item>
@@ -111,6 +111,7 @@ const dialogVisible = ref(false);
 const previewImage = ref('');
 
 const data = reactive({
+  baseUrl: import.meta.env.VITE_BASE_URL,
   username: '',
   name: '',
   pageNum: 1, // 当前的页码

@@ -43,7 +43,8 @@ public class FileController {
         }
         file.transferTo(finalFile);
         // 返回文件Url路径
-        String url = "http://" + ip + ":" + port + "/files/download?fileName=" + fileName;
+//        String url = "http://" + ip + ":" + port + "/files/download?fileName=" + fileName;
+        String url = "/files/download?fileName=" + fileName;
         return Result.success(url);
     }
 

@@ -8,7 +8,7 @@
         </div>
       </div>
       <div style="width: fit-content; padding-right: 10px; display: flex; align-items: center;">
-        <img :src="user.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" alt="" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+        <img :src="`${baseUrl}${user.avatar}` || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" alt="" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
         <span style="margin-left: 5px">{{ user.name }}</span>
       </div>
     </div>
@@ -87,6 +87,7 @@ import { useRoute } from 'vue-router'
 const $route = useRoute()
 // console.log($route.path)
 const user = JSON.parse(localStorage.getItem('student-user') || '{}')
+const baseUrl = import.meta.env.VITE_BASE_URL
 
 const logout = () => {
   localStorage.removeItem('student-user')

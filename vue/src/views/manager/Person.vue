@@ -3,8 +3,8 @@
         <div class="card" style="width: 60%;padding: 10px 20px;">
             <el-form :model="data.form" label-width="100px" style="padding-right: 50px;margin-top: 20px;" :rules="rules" ref="formRef">
                 <el-form-item label="Avatar">
-                <el-upload class="avatar-uploader"  action="http://localhost:9090/files/upload" :show-file-list="false" :on-success="handleImgUploadSuccess">
-                    <img v-if="data.form.avatar" :src="data.form.avatar" style="width: 100px;height: 100px;border-radius: 5px;object-fit: contain;" class="avatar" />
+                <el-upload class="avatar-uploader"  :action="`${data.baseUrl}/files/upload`" :show-file-list="false" :on-success="handleImgUploadSuccess">
+                    <img v-if="data.form.avatar" :src="`${data.baseUrl}${data.form.avatar}`" style="width: 100px;height: 100px;border-radius: 5px;object-fit: contain;" class="avatar" />
                     <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
                 </el-upload>
                 </el-form-item>
@@ -59,12 +59,12 @@ const data = reactive({
     form: JSON.parse(localStorage.getItem('student-user') || '{}'),
     isPasswordChanged: false,
     originalPassword: '',
+    baseUrl: import.meta.env.VITE_BASE_URL
 })
 
 const handleImgUploadSuccess = (res) => {
   // console.log(res)
   data.form.avatar = res.data
-
 }
 
 const formRef = ref()
@@ -137,7 +137,6 @@ const handleCheckboxChange = () => {
         data.form.password = data.originalPassword;  // 恢复原密码
       }
     }
-
 </script>
 
 <style>
