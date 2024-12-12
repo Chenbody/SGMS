@@ -1,5 +1,5 @@
 <template>
-    <div class="box">
+  <div class="box">
     <div>Welcome back <span style="color: dodgerblue; ">{{ user.name }}</span>, have a nice day!</div>
     <div class="button-group" style="margin-left: auto; display: flex; gap: 20px;">
       <button class="btn" @click="goToCourseSelection">快捷选课</button>
@@ -7,56 +7,56 @@
     </div>
   </div>
 
-    <div class="image-carousel">
-        <div class="carousel-track">
-          <div class="carousel-slide">
-          <img src="@/assets/imgs/p1.jpg" alt="Image 1">
-          <img src="@/assets/imgs/p2.jpg" alt="Image 2">
-          <img src="@/assets/imgs/p3.jpg" alt="Image 3">
-          <img src="@/assets/imgs/p4.jpg" alt="Image 4">
-          <img src="@/assets/imgs/p5.jpg" alt="Image 5">
-          <img src="@/assets/imgs/p6.jpg" alt="Image 6">
-          <img src="@/assets/imgs/p7.jpg" alt="Image 7">
-          <img src="@/assets/imgs/p8.jpg" alt="Image 8">
-          <img src="@/assets/imgs/p9.jpg" alt="Image 9">
+  <div class="image-carousel">
+    <div class="carousel-track">
+      <div class="carousel-slide">
+        <img src="@/assets/imgs/p1.jpg" alt="Image 1">
+        <img src="@/assets/imgs/p2.jpg" alt="Image 2">
+        <img src="@/assets/imgs/p3.jpg" alt="Image 3">
+        <img src="@/assets/imgs/p4.jpg" alt="Image 4">
+        <img src="@/assets/imgs/p5.jpg" alt="Image 5">
+        <img src="@/assets/imgs/p6.jpg" alt="Image 6">
+        <img src="@/assets/imgs/p7.jpg" alt="Image 7">
+        <img src="@/assets/imgs/p8.jpg" alt="Image 8">
+        <img src="@/assets/imgs/p9.jpg" alt="Image 9">
+      </div>
     </div>
-        </div>
-    </div>
-    <div class="main-content">
+  </div>
+  <div class="main-content">
     <!-- 重要通知 -->
     <div class="section">
-    <h3>通知</h3>
-    <ul class="notification-list">
-      <li v-for="(notice, index) in notifications" :key="index" class="notification-item">
-        <!-- 左侧内容：置顶标志与通知标题 -->
-        <div class="left-content">
-          <span v-if="notice.isPinned" class="top-tag">【置顶】</span>
-          <a :href="notice.url" class="notice-title" target="_blank">{{ notice.title }}</a>
-        </div>
-        <!-- 右侧内容：标志与日期 -->
-        <div class="right-content">
-          <span class="new-tag" v-if="notice.isNew">NEW</span>
-          <span class="notice-date">{{ notice.date }}</span>
-        </div>
-      </li>
-    </ul>
-  </div>
+      <h3>通知</h3>
+      <ul class="notification-list">
+        <li v-for="(notice, index) in notifications" :key="index" class="notification-item">
+          <!-- 左侧内容：置顶标志与通知标题 -->
+          <div class="left-content">
+            <span v-if="notice.isPinned" class="top-tag">【置顶】</span>
+            <a :href="notice.url" class="notice-title" target="_blank">{{ notice.title }}</a>
+          </div>
+          <!-- 右侧内容：标志与日期 -->
+          <div class="right-content">
+            <span class="new-tag" v-if="notice.isNew">NEW</span>
+            <span class="notice-date">{{ notice.date }}</span>
+          </div>
+        </li>
+      </ul>
+    </div>
 
     <!-- 消息 -->
     <div class="section">
       <h3>消息</h3>
       <ul class="message-list">
-      <li v-for="(message, index) in messages" :key="index" class="message-item">
-        <!-- 左侧内容：消息标题 -->
-        <div class="left-content">
-          <span class="message-title">{{ message.title }}</span>
-        </div>
-        <!-- 右侧内容：日期 -->
-        <div class="right-content">
-          <span class="message-date">{{ message.date }}</span>
-        </div>
-      </li>
-    </ul>
+        <li v-for="(message, index) in messages" :key="index" class="message-item">
+          <!-- 左侧内容：消息标题 -->
+          <div class="left-content">
+            <span class="message-title">{{ message.title }}</span>
+          </div>
+          <!-- 右侧内容：日期 -->
+          <div class="right-content">
+            <span class="message-date">{{ message.date }}</span>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 
@@ -72,7 +72,7 @@ const user = JSON.parse(localStorage.getItem('student-user') || '{}');
 
 // 路由实例
 const router = useRouter();
-  
+
 // 通知数据
 const notifications = ref([
   {
@@ -107,8 +107,9 @@ const messages = ref([
     title: "你的课程选择已完成并通过审批",
     date: "2024-12-12 10:51:00",
   },
-  {title:"停课提醒: 第8周星期三第5-7节的毛概课程停课",
-   date:"2024-11-02 09:56:29"
+  {
+    title: "停课提醒: 第8周星期三第5-7节的毛概课程停课",
+    date: "2024-11-02 09:56:29"
   },
   {
     title: "停课提醒: 第1周星期一第1-4节的软件测试课程停课",
@@ -133,54 +134,59 @@ function goToCourseSelection() {
 <style scoped>
 /* Image Carousel Styles */
 .image-carousel {
-    width: 85%;
-    margin: 25px auto;
-    overflow: hidden;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    border: 10px solid white;
-    background: #e6e6e6;
-    max-width: 1500px;
-    height: 300px;
-    margin-bottom: 20px;
+  width: 85%;
+  margin: 25px auto;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 10px solid white;
+  background: #e6e6e6;
+  max-width: 1500px;
+  height: 300px;
+  margin-bottom: 20px;
 }
 
 .carousel-track {
-    display: flex;
-    width: calc(400px * 9);
-    animation: scroll 30s linear infinite; 
-    animation-play-state: running; 
+  display: flex;
+  width: calc(400px * 9);
+  animation: scroll 30s linear infinite;
+  animation-play-state: running;
 }
 
 .carousel-track:hover {
-    animation-play-state: paused; 
+  animation-play-state: paused;
 }
 
 .carousel-slide {
-    flex: 0 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 10px;
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
 }
 
 .carousel-slide img {
-    width: 100%;
-    height: 350px;
-    object-fit: cover;
-    border-radius: 5px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
 }
 
 .carousel-slide img:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 /* Define an animation called scroll for horizontal scrolling */
 @keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-300px * 9)); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(-300px * 9));
+  }
 }
 
 .box {
@@ -192,7 +198,7 @@ function goToCourseSelection() {
 }
 
 .main-content {
-  margin-top:10px;
+  margin-top: 10px;
   padding: 0px;
   display: flex;
   gap: 20px;
@@ -243,11 +249,10 @@ function goToCourseSelection() {
   margin-right: 10px;
 }
 
-.notification-item:hover
-{
-  background-color: #f8f9fa; 
-  transition: background-color 0.3s ease; 
-  cursor: pointer; 
+.notification-item:hover {
+  background-color: #f8f9fa;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
 /* 通知内容样式 */

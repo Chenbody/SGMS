@@ -14,7 +14,7 @@
     </div>
 
     <div style="display: flex">
-      <div style="width: 200px; border-right: 1px solid #ddd; min-height: calc(100vh - 60px)">
+      <div style="width: 200px;border-right: 1px solid #ddd; min-height: calc(100vh - 60px)">
         <el-menu
             router
             style="border: none"
@@ -74,7 +74,7 @@
         </el-menu>
       </div>
 
-      <div style="flex: 1; width: 0; background-color: #f8f8ff; padding: 10px">
+      <div style="flex: 1; width: 0;border-left: 1px solid #ddd; background-color: #f8f8ff;border-radius: 5px; padding: 10px">
         <router-view />
       </div>
     </div>
