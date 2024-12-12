@@ -4,7 +4,7 @@
       <div style="flex: 1">
         <div style="padding-left: 20px; display: flex; align-items: center">
           <img src="@/assets/imgs/logo.png" alt="" style="width: 40px">
-          <div style="font-weight: bold; font-size: 24px; margin-left: 5px">学生成绩管理系统</div>
+          <div style="font-weight: bold; font-size: 24px; margin-left: 5px">Student grade management system</div>
         </div>
       </div>
       <div style="width: fit-content; padding-right: 10px; display: flex; align-items: center;">
@@ -23,53 +23,53 @@
         >
           <el-menu-item index="/home">
             <el-icon><HomeFilled /></el-icon>
-            <span>系统首页</span>
+            <span>Home</span>
           </el-menu-item>
           <el-sub-menu index="2">
             <template #title>
               <el-icon><Memo /></el-icon>
-              <span>课程管理</span>
+              <span>Course</span>
             </template>
             <el-menu-item index="/course" v-if="user.role === 'ADMIN'">
               <el-icon><Document /></el-icon>
-              <span>课程信息</span>
+              <span>Detail</span>
             </el-menu-item>
             <el-menu-item index="/courseList" v-if="user.role === 'STUDENT'">
               <el-icon><Document /></el-icon>
-              <span>学生选课</span> 
+              <span>Student Course</span> 
             </el-menu-item>
             <el-menu-item index="/studentCourse">
               <el-icon><Document /></el-icon>
-              <span>选课记录</span> 
+              <span>Record</span> 
             </el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="3">
             <template #title>
               <el-icon><Collection /></el-icon>
-              <span>成绩信息</span>
+              <span>Score</span>
             </template>
             <el-menu-item index="/grade">
               <el-icon><Medal /></el-icon>
-              <span>成绩及反馈</span>
+              <span>Score&Feedback</span>
             </el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="4" v-if="user.role === 'ADMIN'">
             <template #title>
               <el-icon><Files /></el-icon>
-              <span>用户管理</span>
+              <span>User</span>
             </template>
             <el-menu-item index="/student">
               <el-icon><Folder /></el-icon>
-              <span>学生信息</span>
+              <span>Student Info</span>
             </el-menu-item>
           </el-sub-menu>
           <el-menu-item index="/person" v-if="user.role === 'STUDENT'">
             <el-icon><User /></el-icon>
-            <span>个人资料</span>
+            <span>Person Info</span>
           </el-menu-item>
           <el-menu-item index="login" @click="logout">
             <el-icon><SwitchButton /></el-icon>
-            <span>退出系统</span>
+            <span>Exit</span>
           </el-menu-item>
         </el-menu>
       </div>

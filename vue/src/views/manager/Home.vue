@@ -2,8 +2,8 @@
   <div class="box">
     <div>Welcome back <span style="color: dodgerblue; ">{{ user.name }}</span>, have a nice day!</div>
     <div class="button-group" style="margin-left: auto; display: flex; gap: 20px;">
-      <button class="btn" @click="goToCourseSelection">快捷选课</button>
-      <button class="btn" @click="goToGradeQuery">快捷成绩</button>
+      <el-button type="primary" @click="goToCourseSelection" style="margin-left: 8px;">To course selection</el-button>
+      <el-button type="primary" @click="goToGradeQuery" style="margin-left: 8px;">To score</el-button>
     </div>
   </div>
 
@@ -303,22 +303,6 @@ function goToCourseSelection() {
 .notice-date {
   color: #888;
   font-size: 12px;
-}
-
-/* 按钮样式 */
-.btn {
-  padding: 10px;
-  background-color: #028bfc;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  text-align: center;
-}
-
-.btn:hover {
-  background-color: #12a17e;
 }
 
 /* 列表样式 */
