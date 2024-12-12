@@ -22,36 +22,30 @@
       </div>
     </div>
   </div>
+
   <div class="main-content">
-    <!-- 重要通知 -->
     <div class="section">
-      <h3>通知</h3>
+      <h3>Notice</h3>
       <ul class="notification-list">
         <li v-for="(notice, index) in notifications" :key="index" class="notification-item">
-          <!-- 左侧内容：置顶标志与通知标题 -->
           <div class="left-content">
             <span v-if="notice.isPinned" class="top-tag">【置顶】</span>
             <a :href="notice.url" class="notice-title" target="_blank">{{ notice.title }}</a>
           </div>
-          <!-- 右侧内容：标志与日期 -->
           <div class="right-content">
-            <span class="new-tag" v-if="notice.isNew">NEW</span>
             <span class="notice-date">{{ notice.date }}</span>
           </div>
         </li>
       </ul>
     </div>
 
-    <!-- 消息 -->
     <div class="section">
-      <h3>消息</h3>
+      <h3>Message</h3>
       <ul class="message-list">
         <li v-for="(message, index) in messages" :key="index" class="message-item">
-          <!-- 左侧内容：消息标题 -->
           <div class="left-content">
             <span class="message-title">{{ message.title }}</span>
           </div>
-          <!-- 右侧内容：日期 -->
           <div class="right-content">
             <span class="message-date">{{ message.date }}</span>
           </div>
@@ -63,39 +57,35 @@
 </template>
 
 <script setup>
-import request from "@/utils/request";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
-// 用户信息
 const user = JSON.parse(localStorage.getItem('student-user') || '{}');
 
-// 路由实例
 const router = useRouter();
 
-// 通知数据
 const notifications = ref([
   {
     isPinned: true,
-    title: "【通知】 关于做好2024—2025第二学期选课相关工作...",
+    title: "Work related to course selection for the second semester of 2024-2025...",
     date: "2024-12-11",
     url: "https://jwxt.scnu.edu.cn",
   },
   {
     isPinned: true,
-    title: "【通知】关于做好2024年下半年全国大学英语四、六级考试...",
+    title: "Work related to CET-4 and CET-6 in the second semester of 2024-2025...",
     date: "2024-12-06",
     url: "https://cet-bm.neea.edu.cn",
   },
   {
     isPinned: false,
-    title: "【通知】关于做好2025年第十六届蓝桥杯全国软件和信息技术专业人才...",
+    title: "Notice on the work of the 16th Lanqiao Cup in 2025...",
     date: "2024-11-05",
     url: "https://dasai.lanqiao.cn",
   },
   {
     isPinned: false,
-    title: "【通知】关于雅思考试报名安排以及备考建议相关工作...",
+    title: "Arrangement for IELTS registration and advice on preparing...",
     date: "2024-12-05",
     url: "https://ielts.neea.cn",
   },
@@ -104,20 +94,20 @@ const notifications = ref([
 // 消息数据
 const messages = ref([
   {
-    title: "你的课程选择已完成并通过审批",
-    date: "2024-12-12 10:51:00",
+    title: "Your course selection has been finished and approved.",
+    date: "2024-12-12 10:51",
   },
   {
-    title: "停课提醒: 第8周星期三第5-7节的毛概课程停课",
-    date: "2024-11-02 09:56:29"
+    title: "Suspension reminder: Suspension of the course on Wednesday, Week 8, Sessions 5-7.",
+    date: "2024-11-02 09:56"
   },
   {
-    title: "停课提醒: 第1周星期一第1-4节的软件测试课程停课",
-    date: "2024-09-02 09:56:29",
+    title: "Suspension reminder: Suspension of the course on Monday, Week 1, Sessions 1-4.",
+    date: "2024-09-02 09:56",
   },
   {
-    title: "你的课程免修免考审批已通过",
-    date: "2024-03-12 10:10:48",
+    title: "Your course exemption approval has been approved.",
+    date: "2024-03-12 10:10",
   },
 ]);
 
@@ -300,7 +290,14 @@ function goToCourseSelection() {
   flex-direction: column;
 }
 
-.notice-date {
+.message-title {
+  color: #555555;
+  font-weight: bold;
+  margin-bottom: 5px;
+  line-height: 1.5;
+}
+
+.message-date {
   color: #888;
   font-size: 12px;
 }

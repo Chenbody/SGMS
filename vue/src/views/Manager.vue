@@ -50,7 +50,7 @@
             </template>
             <el-menu-item index="/grade">
               <el-icon><Medal /></el-icon>
-              <span>Score&Feedback</span>
+              <span>Score & Feedback</span>
             </el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="4" v-if="user.role === 'ADMIN'">
