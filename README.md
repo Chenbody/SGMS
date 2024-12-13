@@ -33,7 +33,7 @@ server: {
 ```
 （两个Network有什么区别你们可以查查）
 - 在`.env.development`里的`localhost:9090`换成后端ip和端口，例如：`http://10.252.150.16:9090`
-- 后端`application.yml`里的`ip`对应的localhost要换成服务器ip、`server`中要增加`address: 0.0.0.0`
+- 后端`application.yml`里的`ip`对应的localhost要换成后端服务器ip、`server`中要增加`address: 0.0.0.0`
 后端`application.yml`修改结果例子：
 ```yml
 server:  
