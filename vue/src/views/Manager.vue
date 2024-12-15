@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div style="height: 60px; background-color: #fff; display: flex; align-items: center; border-bottom: 1px solid #ddd">
+  <div class="whole">
+    <div style="height: 60px; background-color: rgba(255, 255, 255, .7); display: flex; align-items: center; border-bottom: 0px solid #ddd">
       <div style="flex: 1">
         <div style="padding-left: 20px; display: flex; align-items: center">
           <img src="@/assets/imgs/logo.png" alt="" style="width: 40px">
@@ -14,10 +14,11 @@
     </div>
 
     <div style="display: flex">
-      <div style="width: 200px;border-right: 1px solid #ddd; min-height: calc(100vh - 60px)">
+      <div style="width: 200px;background-color: rgba(255, 255, 255, .7);border-right: 0px solid #ddd;min-height: calc(100vh - 60px);">
         <el-menu
             router
-            style="border: none"
+            style="border: none;border-radius: 5px;"
+            background-color="rgba(255, 255, 255, 0)"
             :default-active="$route.path"
             :default-openeds="['/home', '2', '3', '4']"
         >
@@ -74,7 +75,7 @@
         </el-menu>
       </div>
 
-      <div style="flex: 1; width: 0;border-left: 1px solid #ddd; background-color: #f8f8ff;border-radius: 5px; padding: 10px">
+      <div class="content">
         <router-view />
       </div>
     </div>
@@ -95,6 +96,25 @@ const logout = () => {
 </script>
 
 <style scoped>
+.whole {
+  background-image: url(../assets/imgs/background4.png);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+.content {
+  flex: 1;
+  width: 0;
+  /* background-image: url(../assets/imgs/background1.png); */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  /* border-radius: 5px; */
+  padding: 10px;
+  background-size: cover;
+}
+el-menu {
+  background-color: rgba(255, 255, 255, .7);
+}
 .el-menu-item.is-active {
   background-color: #dcede9 !important;
 }
