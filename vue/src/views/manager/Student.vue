@@ -21,9 +21,11 @@
         <el-table-column label="Birth" prop="birth"></el-table-column>
         <el-table-column label="Avatar" prop="avatar">
           <template #default="scope">
-            <img 
+            <el-image 
               v-if="scope.row.avatar" 
               :src="`${data.baseUrl}${scope.row.avatar}`"  
+              :preview-src-list="[`${data.baseUrl}${scope.row.avatar}`]"
+              preview-teleported="true"
               style="width: 40px;height: 40px;border-radius: 5px;cursor: pointer;" 
               @click="openPreview(data.baseUrl + scope.row.avatar)"
             />
@@ -36,11 +38,6 @@
           </template>
         </el-table-column>
       </el-table>
-
-          <!-- 预览大图的对话框 -->
-      <el-dialog v-model="dialogVisible" width="40%" center>
-        <img :src="previewImage" alt="Preview Image" style="width:100%;height:auto;">
-      </el-dialog>
     </div>
 
     <!-- 翻页条 -->
